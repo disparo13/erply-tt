@@ -1,0 +1,6 @@
+#!/bin/bash
+dnf update
+dnf install -y docker
+systemctl enable docker
+systemctl start docker
+docker run -d --restart unless-stopped -p 8080:8080 ${image}
