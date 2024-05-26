@@ -13,7 +13,9 @@ The whole setup is ensured by **Terraform** code wrapped into the **Terragrunt**
 Under the hood it also utilizes terraform modules from the registry:
 
 https://registry.terraform.io/modules/terraform-aws-modules/vpc/aws/latest
+
 https://registry.terraform.io/modules/terraform-aws-modules/alb/aws/latest
+
 https://registry.terraform.io/modules/terraform-aws-modules/autoscaling/aws/latest
 
 ## Structure
