@@ -75,7 +75,8 @@ and run
 terragrunt run-all apply --terragrunt-non-interactive
 ```
 
-Terragrunt will create all the needed infrastructure, including the S3 bucket to store the state and DynamoDB table, to ensure the execution lock.
+Terragrunt will create all the needed infrastructure, including the S3 bucket  to store the state and DynamoDB table to ensure the execution lock 
+(for this configuration S3 will get name *stage-us-east-1-tfstate* and DynamoDB table will get name *stage-us-east-1-tfstate-lock*).
 Just so you know, choosing the cheaper instances, like *t2.micro*, will take longer for the application to warm up. In my case, it took up to 15 minutes
 to become available.
 
