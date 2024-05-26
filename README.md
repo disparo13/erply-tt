@@ -18,4 +18,44 @@ https://registry.terraform.io/modules/terraform-aws-modules/alb/aws/latest
 
 https://registry.terraform.io/modules/terraform-aws-modules/autoscaling/aws/latest
 
-## Structure
+
+# Structure
+
+* modules - directory with the local Terraform modules that we are calling from the Terragrunt
+* prod - a production environment configuration
+* stage - a staging environment configuration
+
+Every environment consists of:
+* vpc - deployment part for the VPC
+* alb - deployment part for the Application Load Balancer
+* ag - deployment part for the autoscaling group
+* env.hcl - the main configuration file for the environment
+
+```text
+
+├── modules
+│   ├── app-lb
+│   │   ├── alb.tf
+│   │   ├── outputs.tf
+│   │   └── variables.tf
+│   ├── autoscaling-group
+│   │   ├── asg.tf
+│   │   ├── security-groups.tf
+│   │   ├── userdata.tfpl
+│   │   └── variables.tf
+│   └── network
+│       ├── outputs.tf
+│       ├── variables.tf
+│       └── vpc.tf
+├── prod
+├── stage
+│   ├── ag
+│   │   └── terragrunt.hcl
+│   ├── alb
+│   │   └── terragrunt.hcl
+│   ├── env.hcl
+│   └── vpc
+│       └── terragrunt.hcl
+└── terragrunt.hcl
+
+```
