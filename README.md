@@ -18,6 +18,47 @@ https://registry.terraform.io/modules/terraform-aws-modules/alb/aws/latest
 
 https://registry.terraform.io/modules/terraform-aws-modules/autoscaling/aws/latest
 
+# HOWTO
+
+## 1. Configuration
+
+Here's the Here's the *env.hcl* example:
+
+```
+locals {
+  #
+  # tier - basically - a name of your environment
+  # region - the region, where the configuration will be deployed
+  # backend - is the path to your state file, you should not change it
+  #
+  tier    = "stage"
+  region  = "us-east-1"
+  backend = "${local.tier}-${local.region}-tfstate"
+
+  # Here comes the autoscaling group configuration
+  ag_min_size     = 1
+  ag_max_size     = 1
+  ag_desired_size = 1
+
+  # The docker image to deploy
+  image = "disparo/app-react:latest"
+
+  # The instance type for your deployment
+  worker_node_instance_type = "t2.micro"
+
+  # CIDR for the configurable VPC
+  # You should stay inside the /16 address space
+  # the rest will be configured automatically
+  vpc_cidr = "10.2.0.0/16"
+
+  # Whatever tags you want to set for your deployment
+  tags = {
+    Tier      = local.tier
+    Region    = local.region
+    Terraform = true
+  }
+}
+```
 
 # Structure
 
