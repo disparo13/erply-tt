@@ -20,9 +20,9 @@ https://registry.terraform.io/modules/terraform-aws-modules/autoscaling/aws/late
 
 # HOWTO
 
-## 1. Configuration
+## Configuration
 
-Here's the Here's the *env.hcl* example:
+Here's the *env.hcl* example:
 
 ```
 locals {
@@ -58,6 +58,66 @@ locals {
     Terraform = true
   }
 }
+```
+
+## Deploy
+
+Please ensure you configured the API access for your AWS account and have installed the latest versions of **Terraform** and **Terragrunt**, then
+go to the environment directory
+
+```
+cd stage
+```
+
+and run
+
+```
+terragrunt run-all apply --terragrunt-non-interactive
+```
+
+Terragrunt will create all the needed infrastructure, including the S3 bucket to store the state and DynamoDB table, to ensure the execution lock.
+Just so you know, choosing the cheaper instances, like *t2.micro*, will take longer for the application to warm up. In my case, it took up to 15 minutes
+to become available.
+
+To get the ALB DNS address:
+
+```
+cd alb
+terragrunt output alb_dns_name | tr -d '"'
+```
+
+In my case it was *stage-react-app-220788634.us-east-1.elb.amazonaws.com*, so the application will be available by the address:
+**http://stage-react-app-220788634.us-east-1.elb.amazonaws.com:80**
+
+## Scaling up and down
+
+In the *env.hcl* file edit the settings for 
+
+```
+  ag_min_size     = 1
+  ag_max_size     = 1
+  ag_desired_size = 1
+```
+
+then re-apply the *ag* part:
+
+```
+cd ag
+terragrunt apply
+```
+
+## Destroying configuration
+
+Go to the environment directory
+
+```
+cd stage
+```
+
+and run
+
+```
+terragrunt run-all destroy
 ```
 
 # Structure
